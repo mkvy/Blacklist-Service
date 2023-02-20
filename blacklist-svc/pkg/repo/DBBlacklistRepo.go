@@ -2,6 +2,7 @@ package repo
 
 import (
 	"github.com/jmoiron/sqlx"
+	"github.com/lib/pq"
 	_ "github.com/lib/pq"
 	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/models"
 	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/utils"
@@ -21,6 +22,10 @@ func (d *DBBlacklistRepo) Create(data models.BlacklistData) error {
 	query := `INSERT INTO blacklist VALUES(:id,:phone_number,:user_name,:ban_reason,:date_banned,:username_who_banned);`
 	_, err := d.db.NamedExec(query, &data)
 	if err != nil {
+		pqErr, ok := err.(*pq.Error)
+		if ok && pqErr.Code == "23505" {
+			return utils.ErrAlreadyExists
+		}
 		return err
 	}
 	return nil
@@ -49,6 +54,9 @@ func (d *DBBlacklistRepo) GetByPhoneNumber(phone string) ([]models.BlacklistData
 		log.Println("DBBlacklistRepo: error while GetByPhoneNumber: ", err)
 		return nil, err
 	}
+	if len(bData) == 0 {
+		return nil, utils.ErrNotFound
+	}
 	return bData, nil
 }
 
@@ -59,6 +67,9 @@ func (d *DBBlacklistRepo) GetByUsername(username string) ([]models.BlacklistData
 	if err != nil {
 		log.Println("DBBlacklistRepo: error while GetByUsername: ", err)
 		return nil, err
+	}
+	if len(bData) == 0 {
+		return nil, utils.ErrNotFound
 	}
 	return bData, nil
 }

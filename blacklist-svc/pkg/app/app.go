@@ -27,11 +27,11 @@ func Run() {
 	handler := controller.NewController(svc)
 	s := server.NewServer(cfg, handler)
 	go s.Start()
-	log.Println("Http Server is running")
+	log.Println("http: Server is running")
 	sigTerm := make(chan os.Signal, 1)
 	signal.Notify(sigTerm, os.Interrupt, os.Kill)
 	<-sigTerm
 	s.Stop()
-	db.Close()
-	log.Println("finished")
+	dbConn.DBClose()
+	log.Println("application finished")
 }

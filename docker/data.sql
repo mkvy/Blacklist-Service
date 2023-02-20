@@ -1,0 +1,2 @@
+INSERT INTO blacklist VALUES ('be2d9702-b63c-4e5a-a6e5-71da42b8e643', '79992221133', 'Testov Test Test1', 'Some ban reason', '2023-01-11T13:24:49+00:00', 'Somebody Whobanned');
+INSERT INTO blacklist VALUES ('65d51f7f-f821-424c-9017-61a28324d5f7', '79993331133', 'Testov Test2 Test2', 'Some b2an 2reason', '2023-01-15T13:24:49+00:00', 'Someone 2Whobanned');

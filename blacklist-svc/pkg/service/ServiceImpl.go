@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/dto"
 	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/models"
@@ -28,8 +29,15 @@ func (b *BlacklistSvcImpl) Add(data dto.BlacklistRequestDto) (string, error) {
 		DateBanned:        time.Now(),
 		UsernameWhoBanned: data.UsernameWhoBanned,
 	}
-	err := b.repo.Create(entity)
+	validate := validator.New()
+	err := validate.Struct(entity)
 	if err != nil {
+		log.Println("BlacklistSvcImpl err while validating entity")
+		return "", err
+	}
+	err = b.repo.Create(entity)
+	if err != nil {
+		log.Println("BlacklistSvcImpl err while create entity")
 		return "", err
 	}
 	return id, nil
@@ -45,9 +53,9 @@ func (b *BlacklistSvcImpl) Delete(id string) error {
 	return nil
 }
 
-func (b *BlacklistSvcImpl) GetByPhoneNumber(dto dto.GetByPhoneDto) ([]models.BlacklistData, error) {
-	log.Println("BlacklistSvcImpl: GetByPhoneNumber data with: ", dto.PhoneNumber)
-	data, err := b.repo.GetByPhoneNumber(dto.PhoneNumber)
+func (b *BlacklistSvcImpl) GetByPhoneNumber(phone string) ([]models.BlacklistData, error) {
+	log.Println("BlacklistSvcImpl: GetByPhoneNumber data with: ", phone)
+	data, err := b.repo.GetByPhoneNumber(phone)
 	if err != nil {
 		log.Println("BlacklistSvcImpl: error after repo call, ", err)
 		return nil, err
@@ -55,9 +63,9 @@ func (b *BlacklistSvcImpl) GetByPhoneNumber(dto dto.GetByPhoneDto) ([]models.Bla
 	return data, nil
 }
 
-func (b *BlacklistSvcImpl) GetByUsername(dto dto.GetByUsernameDto) ([]models.BlacklistData, error) {
-	log.Println("BlacklistSvcImpl: GetByUsernameDto data with: ", dto.Username)
-	data, err := b.repo.GetByUsername(dto.Username)
+func (b *BlacklistSvcImpl) GetByUsername(username string) ([]models.BlacklistData, error) {
+	log.Println("BlacklistSvcImpl: GetByUsernameDto data with: ", username)
+	data, err := b.repo.GetByUsername(username)
 	if err != nil {
 		log.Println("BlacklistSvcImpl: error after repo call, ", err)
 		return nil, err

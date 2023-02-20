@@ -16,10 +16,11 @@ type Server struct {
 
 func NewServer(cfg config.Config, c *controller.Controller) *Server {
 	router := mux.NewRouter()
+	router.HandleFunc("/api/v1/test", c.AddHandler).Methods("POST")
 	router.HandleFunc("/api/v1/test/", c.AddHandler).Methods("POST")
 	router.HandleFunc("/api/v1/test/{id}", c.DeleteHandler).Methods("DELETE")
-	router.HandleFunc("/api/v1/testGet/", c.GetByUsernameHandler).Methods("POST")
-	router.HandleFunc("/api/v1/testGetPhone/", c.GetByPhoneHandler).Methods("POST")
+	router.HandleFunc("/api/v1/test", c.GetByUsernameHandler).Queries("user_name", "{user_name}").Methods("GET")
+	router.HandleFunc("/api/v1/test", c.GetByPhoneHandler).Queries("phone_number", "{phone_number}").Methods("GET")
 	server := &http.Server{Addr: ":" + cfg.HttpServer.Port, Handler: router}
 	return &Server{server, cfg.HttpServer.Port}
 }
