@@ -46,5 +46,6 @@ func (d *DBConn) DBClose() {
 	if err != nil {
 		log.Println("error closing connection with database")
 	}
+	log.Println("DB connection closed")
 	return
 }

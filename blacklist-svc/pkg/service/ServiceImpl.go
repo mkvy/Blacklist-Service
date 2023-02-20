@@ -35,17 +35,32 @@ func (b *BlacklistSvcImpl) Add(data dto.BlacklistRequestDto) (string, error) {
 	return id, nil
 }
 
-func (b BlacklistSvcImpl) Delete(s string) error {
-	//TODO implement me
-	panic("implement me")
+func (b *BlacklistSvcImpl) Delete(id string) error {
+	log.Println("BlacklistSvcImpl: deleting data with id: ", id)
+	err := b.repo.Delete(id)
+	if err != nil {
+		log.Println("BlacklistSvcImpl: error after repo call, ", err)
+		return err
+	}
+	return nil
 }
 
-func (b BlacklistSvcImpl) GetByID(s string) ([]models.BlacklistData, error) {
-	//TODO implement me
-	panic("implement me")
+func (b *BlacklistSvcImpl) GetByPhoneNumber(dto dto.GetByPhoneDto) ([]models.BlacklistData, error) {
+	log.Println("BlacklistSvcImpl: GetByPhoneNumber data with: ", dto.PhoneNumber)
+	data, err := b.repo.GetByPhoneNumber(dto.PhoneNumber)
+	if err != nil {
+		log.Println("BlacklistSvcImpl: error after repo call, ", err)
+		return nil, err
+	}
+	return data, nil
 }
 
-func (b BlacklistSvcImpl) GetByUsername(s string) ([]models.BlacklistData, error) {
-	//TODO implement me
-	panic("implement me")
+func (b *BlacklistSvcImpl) GetByUsername(dto dto.GetByUsernameDto) ([]models.BlacklistData, error) {
+	log.Println("BlacklistSvcImpl: GetByUsernameDto data with: ", dto.Username)
+	data, err := b.repo.GetByUsername(dto.Username)
+	if err != nil {
+		log.Println("BlacklistSvcImpl: error after repo call, ", err)
+		return nil, err
+	}
+	return data, nil
 }

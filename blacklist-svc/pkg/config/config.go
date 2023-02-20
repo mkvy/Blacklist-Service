@@ -13,6 +13,10 @@ type Config struct {
 		DBname     string `yaml:"dbname"`
 		DriverName string `yaml:"driverName"`
 	} `yaml:"database"`
+	HttpServer struct {
+		Host string `yaml:"host"`
+		Port string `yaml:"port"`
+	} `yaml:"http-server"`
 }
 
 func NewConfigFromFile() Config {
