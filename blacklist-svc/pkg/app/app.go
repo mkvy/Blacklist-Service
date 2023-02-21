@@ -22,8 +22,8 @@ func Run() {
 	if err != nil {
 		log.Panic(err)
 	}
-	repository := repo.NewDBBlacklistRepo(db)
-	svc := service.NewBlacklistSvcImpl(repository)
+	repository := repo.NewRepository(db)
+	svc := service.NewService(repository)
 	handler := controller.NewController(svc)
 	s := server.NewServer(cfg, handler)
 	go s.Start()
