@@ -19,6 +19,18 @@ func NewController(service service.UserBlackListSvc) *Controller {
 	return &Controller{service}
 }
 
+// Create godoc
+// @Summary Create user in blacklist
+// @Description Добавление пользователя в черный список
+// @Tags blacklist
+// @Success 201 {object} dto.ResponseId
+// @Router /blacklist/ [post]
+// @Param reqeust body dto.BlacklistRequestDto true "Create body"
+// @Failure      400
+// @Failure      401
+// @Failure      404
+// @Failure      500
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 func (c *Controller) AddHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("AddHandler: handling method POST api/v1/test/")
 	var data dto.BlacklistRequestDto
@@ -46,13 +58,25 @@ func (c *Controller) AddHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	err = json.NewEncoder(w).Encode(map[string]string{"id": id})
+	resp := &dto.ResponseId{Id: id}
+	err = json.NewEncoder(w).Encode(&resp)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
 
+// Delete godoc
+// @Summary Get black list by user's phone
+// @Description Удаление пользователя из черного списка
+// @Tags blacklist
+// @Success 204
+// @Router /blacklist/{id} [delete]
+// @Param id path string true "Delete by id"
+// @Failure      401
+// @Failure      404
+// @Failure      500
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 func (c *Controller) DeleteHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
@@ -71,6 +95,19 @@ func (c *Controller) DeleteHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+// Get godoc
+// @Summary Get black list by username or phone_number
+// @Description Поиск пользователя в черном списке по user_name или phone_number (требуется только один параметр)
+// @Tags blacklist
+// @Produce json
+// @Success 200 {array} models.BlacklistData
+// @Router /blacklist [get]
+// @Param user_name query string false "Get by username only"
+// @Param phone_number query string false "Get by phone number only"
+// @Failure      401
+// @Failure      404
+// @Failure      500
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 func (c *Controller) GetByUsernameHandler(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("user_name")
 	log.Println("GetByUsernameHandler call to service with username: ", username)

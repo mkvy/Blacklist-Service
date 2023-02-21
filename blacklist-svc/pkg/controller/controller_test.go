@@ -25,7 +25,7 @@ func TestAddHandler(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	req, err := http.NewRequest("POST", "/api/v1/test/", bytes.NewReader(bodyBytes))
+	req, err := http.NewRequest("POST", "/api/v1/blacklist/", bytes.NewReader(bodyBytes))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -33,7 +33,7 @@ func TestAddHandler(t *testing.T) {
 	rr := httptest.NewRecorder()
 	router := mux.NewRouter()
 	ctrl := NewController(mocks.NewMockService())
-	router.HandleFunc("/api/v1/test/", ctrl.AddHandler).Methods("POST")
+	router.HandleFunc("/api/v1/blacklist/", ctrl.AddHandler).Methods("POST")
 	router.ServeHTTP(rr, req)
 	if status := rr.Code; status != http.StatusCreated {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusCreated)
@@ -61,7 +61,7 @@ func TestAddHandler_UniqueViolation(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	req, err := http.NewRequest("POST", "/api/v1/test/", bytes.NewReader(bodyBytes))
+	req, err := http.NewRequest("POST", "/api/v1/blacklist/", bytes.NewReader(bodyBytes))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -69,7 +69,7 @@ func TestAddHandler_UniqueViolation(t *testing.T) {
 	rr := httptest.NewRecorder()
 	router := mux.NewRouter()
 	ctrl := NewController(mocks.NewMockService())
-	router.HandleFunc("/api/v1/test/", ctrl.AddHandler).Methods("POST")
+	router.HandleFunc("/api/v1/blacklist/", ctrl.AddHandler).Methods("POST")
 	router.ServeHTTP(rr, req)
 	if status := rr.Code; status != http.StatusConflict {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusConflict)
@@ -87,14 +87,14 @@ func TestAddHandler_ValidationError(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	req, err := http.NewRequest("POST", "/api/v1/test/", bytes.NewReader(bodyBytes))
+	req, err := http.NewRequest("POST", "/api/v1/blacklist/", bytes.NewReader(bodyBytes))
 	if err != nil {
 		t.Fatal(err)
 	}
 	rr := httptest.NewRecorder()
 	router := mux.NewRouter()
 	ctrl := NewController(mocks.NewMockService())
-	router.HandleFunc("/api/v1/test/", ctrl.AddHandler).Methods("POST")
+	router.HandleFunc("/api/v1/blacklist/", ctrl.AddHandler).Methods("POST")
 	router.ServeHTTP(rr, req)
 	if status := rr.Code; status != http.StatusBadRequest {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusBadRequest)
@@ -102,19 +102,19 @@ func TestAddHandler_ValidationError(t *testing.T) {
 }
 
 func TestDeleteHandler(t *testing.T) {
-	req, err := http.NewRequest("DELETE", "/api/v1/test/123", nil)
+	req, err := http.NewRequest("DELETE", "/api/v1/blacklist/123", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	rr := httptest.NewRecorder()
 	router := mux.NewRouter()
 	controller := NewController(mocks.NewMockService())
-	router.HandleFunc("/api/v1/test/{id}", controller.DeleteHandler).Methods("DELETE")
+	router.HandleFunc("/api/v1/blacklist/{id}", controller.DeleteHandler).Methods("DELETE")
 	router.ServeHTTP(rr, req)
 	if status := rr.Code; status != http.StatusNoContent {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusNoContent)
 	}
-	req, err = http.NewRequest("DELETE", "/api/v1/test/456", nil)
+	req, err = http.NewRequest("DELETE", "/api/v1/blacklist/456", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -123,7 +123,7 @@ func TestDeleteHandler(t *testing.T) {
 	if status := rr.Code; status != http.StatusNotFound {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusNotFound)
 	}
-	req, err = http.NewRequest("DELETE", "/api/v1/test/789", nil)
+	req, err = http.NewRequest("DELETE", "/api/v1/blacklist/789", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -135,14 +135,14 @@ func TestDeleteHandler(t *testing.T) {
 }
 
 func TestController_GetByPhoneHandler(t *testing.T) {
-	req, err := http.NewRequest("GET", "/api/v1/test?phone_number=1234567890", nil)
+	req, err := http.NewRequest("GET", "/api/v1/blacklist?phone_number=1234567890", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	rr := httptest.NewRecorder()
 	router := mux.NewRouter()
 	controller := NewController(mocks.NewMockService())
-	router.HandleFunc("/api/v1/test", controller.GetByPhoneHandler).Queries("phone_number", "{phone_number}").Methods("GET")
+	router.HandleFunc("/api/v1/blacklist", controller.GetByPhoneHandler).Queries("phone_number", "{phone_number}").Methods("GET")
 	router.ServeHTTP(rr, req)
 	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
@@ -160,7 +160,7 @@ func TestController_GetByPhoneHandler(t *testing.T) {
 		},
 	}
 	assert.Equal(t, expected, ans)
-	req, err = http.NewRequest("GET", "/api/v1/test?phone_number=1232227890", nil)
+	req, err = http.NewRequest("GET", "/api/v1/blacklist?phone_number=1232227890", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -172,14 +172,14 @@ func TestController_GetByPhoneHandler(t *testing.T) {
 }
 
 func TestController_GetByUsernameHandler(t *testing.T) {
-	req, err := http.NewRequest("GET", "/api/v1/test?user_name=user1", nil)
+	req, err := http.NewRequest("GET", "/api/v1/blacklist?user_name=user1", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	rr := httptest.NewRecorder()
 	router := mux.NewRouter()
 	controller := NewController(mocks.NewMockService())
-	router.HandleFunc("/api/v1/test", controller.GetByUsernameHandler).Queries("user_name", "{user_name}").Methods("GET")
+	router.HandleFunc("/api/v1/blacklist", controller.GetByUsernameHandler).Queries("user_name", "{user_name}").Methods("GET")
 	router.ServeHTTP(rr, req)
 	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
@@ -197,7 +197,7 @@ func TestController_GetByUsernameHandler(t *testing.T) {
 		},
 	}
 	assert.Equal(t, expected, ans)
-	req, err = http.NewRequest("GET", "/api/v1/test?user_name=aw1ddd", nil)
+	req, err = http.NewRequest("GET", "/api/v1/blacklist?user_name=aw1ddd", nil)
 	if err != nil {
 		t.Fatal(err)
 	}

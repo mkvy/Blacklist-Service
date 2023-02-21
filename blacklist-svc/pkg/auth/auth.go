@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/config"
+	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/dto"
 	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/utils"
 	"github.com/shaj13/go-guardian/v2/auth"
 	"github.com/shaj13/go-guardian/v2/auth/strategies/basic"
@@ -21,7 +22,6 @@ var keeper jwt.SecretsKeeper
 
 func SetupGoGuardian() {
 	cfg := config.GetConfig()
-	log.Println(cfg.Auth.JwtSecret)
 	keeper = jwt.StaticSecret{
 		ID:        "secret-id",
 		Secret:    []byte(cfg.Auth.JwtSecret),
@@ -37,12 +37,22 @@ func SetupGoGuardian() {
 	strategy = union.New(jwtStrategy, basicStrategy)
 }
 
+// Create godoc
+// @Summary Get Bearer authorization token (need Basic Authorization first!)
+// @Description Получение токена авторизации Bearer. Требуется Basic authorization для выполнения метода.
+// @Tags auth
+// @Success 200 {object} dto.Token
+// @Router /auth/token [get]
+// @Security BasicAuth
+// @Failure      401
+// @Failure      500
 func CreateToken(w http.ResponseWriter, r *http.Request) {
 	u := auth.User(r)
 	token, _ := jwt.IssueAccessToken(u, keeper)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	err := json.NewEncoder(w).Encode(map[string]string{"token": token})
+	tok := dto.Token{Token: token}
+	err := json.NewEncoder(w).Encode(&tok)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -50,8 +60,6 @@ func CreateToken(w http.ResponseWriter, r *http.Request) {
 
 func validateUser(ctx context.Context, r *http.Request, userName, password string) (auth.Info, error) {
 	cfg := config.GetConfig()
-	log.Println(cfg.Auth.Username)
-	log.Println(cfg.Auth.Password)
 	if userName == cfg.Auth.Username && password == cfg.Auth.Password {
 		return auth.NewDefaultUser(userName, "1", nil, nil), nil
 	}
