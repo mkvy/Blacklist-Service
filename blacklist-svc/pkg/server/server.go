@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"github.com/gorilla/mux"
+	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/auth"
 	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/config"
 	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/controller"
 	"log"
@@ -16,11 +17,13 @@ type Server struct {
 
 func NewServer(cfg config.Config, c *controller.Controller) *Server {
 	router := mux.NewRouter()
-	router.HandleFunc("/api/v1/test", c.AddHandler).Methods("POST")
-	router.HandleFunc("/api/v1/test/", c.AddHandler).Methods("POST")
-	router.HandleFunc("/api/v1/test/{id}", c.DeleteHandler).Methods("DELETE")
-	router.HandleFunc("/api/v1/test", c.GetByUsernameHandler).Queries("user_name", "{user_name}").Methods("GET")
-	router.HandleFunc("/api/v1/test", c.GetByPhoneHandler).Queries("phone_number", "{phone_number}").Methods("GET")
+	auth.SetupGoGuardian()
+	router.HandleFunc("/api/v1/auth/token", auth.Middleware(http.HandlerFunc(auth.CreateToken))).Methods("GET")
+	router.HandleFunc("/api/v1/test", auth.Middleware(http.HandlerFunc(c.AddHandler))).Methods("POST")
+	router.HandleFunc("/api/v1/test/", auth.Middleware(http.HandlerFunc(c.AddHandler))).Methods("POST")
+	router.HandleFunc("/api/v1/test/{id}", auth.Middleware(http.HandlerFunc(c.DeleteHandler))).Methods("DELETE")
+	router.HandleFunc("/api/v1/test", auth.Middleware(http.HandlerFunc(c.GetByUsernameHandler))).Queries("user_name", "{user_name}").Methods("GET")
+	router.HandleFunc("/api/v1/test", auth.Middleware(http.HandlerFunc(c.GetByPhoneHandler))).Queries("phone_number", "{phone_number}").Methods("GET")
 	server := &http.Server{Addr: ":" + cfg.HttpServer.Port, Handler: router}
 	return &Server{server, cfg.HttpServer.Port}
 }
