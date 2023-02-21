@@ -1,4 +1,4 @@
-module github.com/mkvy/BlacklistTestTask/blacklist-svc
+module github.com/mkvy/BlacklistTestTask
 
 go 1.19
 

@@ -2,10 +2,10 @@ package mocks
 
 import (
 	"errors"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/dto"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/models"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/service"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/utils"
+	"github.com/mkvy/BlacklistTestTask/pkg/dto"
+	"github.com/mkvy/BlacklistTestTask/pkg/models"
+	"github.com/mkvy/BlacklistTestTask/pkg/service"
+	"github.com/mkvy/BlacklistTestTask/pkg/utils"
 	"time"
 )
 

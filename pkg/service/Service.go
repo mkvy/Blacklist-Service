@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/dto"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/models"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/repo"
+	"github.com/mkvy/BlacklistTestTask/pkg/dto"
+	"github.com/mkvy/BlacklistTestTask/pkg/models"
+	"github.com/mkvy/BlacklistTestTask/pkg/repo"
 )
 
 type UserBlackListSvc interface {

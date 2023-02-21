@@ -3,9 +3,9 @@ package auth
 import (
 	"context"
 	"encoding/json"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/config"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/dto"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/utils"
+	"github.com/mkvy/BlacklistTestTask/pkg/config"
+	"github.com/mkvy/BlacklistTestTask/pkg/dto"
+	"github.com/mkvy/BlacklistTestTask/pkg/utils"
 	"github.com/shaj13/go-guardian/v2/auth"
 	"github.com/shaj13/go-guardian/v2/auth/strategies/basic"
 	"github.com/shaj13/go-guardian/v2/auth/strategies/jwt"

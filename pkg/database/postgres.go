@@ -3,7 +3,7 @@ package database
 import (
 	"errors"
 	"github.com/jmoiron/sqlx"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/config"
+	"github.com/mkvy/BlacklistTestTask/pkg/config"
 	"log"
 	"sync"
 )

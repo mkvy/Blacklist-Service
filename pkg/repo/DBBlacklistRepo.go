@@ -4,8 +4,8 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/lib/pq"
 	_ "github.com/lib/pq"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/models"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/utils"
+	"github.com/mkvy/BlacklistTestTask/pkg/models"
+	"github.com/mkvy/BlacklistTestTask/pkg/utils"
 	"log"
 )
 

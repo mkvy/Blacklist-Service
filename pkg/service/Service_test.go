@@ -2,10 +2,10 @@ package service
 
 import (
 	"github.com/go-playground/validator/v10"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/dto"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/models"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/repo/mocks"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/utils"
+	"github.com/mkvy/BlacklistTestTask/pkg/dto"
+	"github.com/mkvy/BlacklistTestTask/pkg/models"
+	"github.com/mkvy/BlacklistTestTask/pkg/repo/mocks"
+	"github.com/mkvy/BlacklistTestTask/pkg/utils"
 	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"

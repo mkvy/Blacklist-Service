@@ -2,7 +2,7 @@ package repo
 
 import (
 	"github.com/jmoiron/sqlx"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/models"
+	"github.com/mkvy/BlacklistTestTask/pkg/models"
 )
 
 type BlacklistRepository interface {

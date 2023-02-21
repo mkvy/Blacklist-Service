@@ -1,12 +1,12 @@
 package app
 
 import (
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/config"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/controller"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/database"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/repo"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/server"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/service"
+	"github.com/mkvy/BlacklistTestTask/pkg/config"
+	"github.com/mkvy/BlacklistTestTask/pkg/controller"
+	"github.com/mkvy/BlacklistTestTask/pkg/database"
+	"github.com/mkvy/BlacklistTestTask/pkg/repo"
+	"github.com/mkvy/BlacklistTestTask/pkg/server"
+	"github.com/mkvy/BlacklistTestTask/pkg/service"
 	"log"
 	"os"
 	"os/signal"

@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/dto"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/service"
-	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/utils"
+	"github.com/mkvy/BlacklistTestTask/pkg/dto"
+	"github.com/mkvy/BlacklistTestTask/pkg/service"
+	"github.com/mkvy/BlacklistTestTask/pkg/utils"
 	"log"
 	"net/http"
 )
