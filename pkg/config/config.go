@@ -13,6 +13,7 @@ type Config struct {
 		Password   string `env:"PG_PASSWORD" env-default:"postgres"`
 		DBname     string `env:"DATABASE_NAME" env-default:"blacklist_dev"`
 		DriverName string `env:"DRIVER_NAME" env-default:"postgres"`
+		HostPort   string `env:"DATABASE_HOST_PORT" env-default:"database:5432"`
 	}
 	HttpServer struct {
 		Host string `env:"SERVER_HOST" env-default:"localhost"`

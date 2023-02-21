@@ -5,6 +5,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/mkvy/BlacklistTestTask/pkg/config"
 	"log"
+	"strings"
 	"sync"
 )
 
@@ -18,8 +19,14 @@ func NewDBConn(cfg config.Config) (*DBConn, error) {
 	var db *sqlx.DB
 	once.Do(func() {
 		log.Println("Creating DB connection in Blacklist DB with driver " + cfg.Database.DriverName)
-		connStr := "user=" + cfg.Database.Username + " password=" + cfg.Database.Password + " dbname=" + cfg.Database.DBname + " sslmode=disable"
-		db, err = sqlx.Open(cfg.Database.DriverName, connStr)
+		sb := strings.Builder{}
+		sb.WriteString("postgres://")
+		sb.WriteString(cfg.Database.Username)
+		sb.WriteString(":" + cfg.Database.Password)
+		sb.WriteString("@" + cfg.Database.HostPort + "/")
+		sb.WriteString(cfg.Database.DBname)
+		sb.WriteString("?sslmode=disable")
+		db, err = sqlx.Open(cfg.Database.DriverName, sb.String())
 		if err != nil {
 			log.Println("Error while connecting to db")
 			log.Println(err)

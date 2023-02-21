@@ -1,0 +1,35 @@
+version: '2.1'
+services:
+  database:
+    image: postgres:15.2-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${PG_USERNAME}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/1-init.sql
+      - ./sql/data.sql:/docker-entrypoint-initdb.d/2-data.sql
+      - ./sql/.dbdata:/var/lib/postgresql/data
+    networks:
+      backend:
+        aliases:
+          - "database"
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - database
+    ports:
+      - "8283:8283"
+    networks:
+      backend:
+        aliases:
+          - "app"
+networks:
+  backend:
+    driver: bridge
