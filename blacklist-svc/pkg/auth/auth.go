@@ -3,6 +3,7 @@ package auth
 import (
 	"context"
 	"encoding/json"
+	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/config"
 	"github.com/mkvy/BlacklistTestTask/blacklist-svc/pkg/utils"
 	"github.com/shaj13/go-guardian/v2/auth"
 	"github.com/shaj13/go-guardian/v2/auth/strategies/basic"
@@ -19,9 +20,11 @@ var strategy union.Union
 var keeper jwt.SecretsKeeper
 
 func SetupGoGuardian() {
+	cfg := config.GetConfig()
+	log.Println(cfg.Auth.JwtSecret)
 	keeper = jwt.StaticSecret{
 		ID:        "secret-id",
-		Secret:    []byte("hardcode"),
+		Secret:    []byte(cfg.Auth.JwtSecret),
 		Algorithm: jwt.HS256,
 	}
 	cache := libcache.FIFO.New(0)
@@ -46,8 +49,10 @@ func CreateToken(w http.ResponseWriter, r *http.Request) {
 }
 
 func validateUser(ctx context.Context, r *http.Request, userName, password string) (auth.Info, error) {
-
-	if userName == "hardcode" && password == "hardcode" {
+	cfg := config.GetConfig()
+	log.Println(cfg.Auth.Username)
+	log.Println(cfg.Auth.Password)
+	if userName == cfg.Auth.Username && password == cfg.Auth.Password {
 		return auth.NewDefaultUser(userName, "1", nil, nil), nil
 	}
 

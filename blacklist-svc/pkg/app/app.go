@@ -13,8 +13,8 @@ import (
 )
 
 func Run() {
-	cfg := config.NewConfigFromFile()
-	dbConn, err := database.NewDBConn(cfg)
+	cfg := config.GetConfig()
+	dbConn, err := database.NewDBConn(*cfg)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -25,7 +25,7 @@ func Run() {
 	repository := repo.NewRepository(db)
 	svc := service.NewService(repository)
 	handler := controller.NewController(svc)
-	s := server.NewServer(cfg, handler)
+	s := server.NewServer(*cfg, handler)
 	go s.Start()
 	log.Println("http: Server is running")
 	sigTerm := make(chan os.Signal, 1)

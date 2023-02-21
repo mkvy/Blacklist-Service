@@ -1,9 +1,0 @@
-database:
-  user: "postgres"
-  pass: "postgres"
-  dbname: "blacklist_dev"
-  driverName: "postgres"
-
-http-server:
-  host: "localhost"
-  port: 8283

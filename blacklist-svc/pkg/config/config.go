@@ -1,37 +1,48 @@
 package config
 
 import (
-	"gopkg.in/yaml.v2"
+	"github.com/ilyakaznacheev/cleanenv"
+	"github.com/joho/godotenv"
 	"log"
-	"os"
+	"sync"
 )
 
 type Config struct {
 	Database struct {
-		Username   string `yaml:"user"`
-		Password   string `yaml:"pass"`
-		DBname     string `yaml:"dbname"`
-		DriverName string `yaml:"driverName"`
-	} `yaml:"database"`
+		Username   string `env:"PG_USERNAME" env-default:"postgres"`
+		Password   string `env:"PG_PASSWORD" env-default:"postgres"`
+		DBname     string `env:"DATABASE_NAME" env-default:"blacklist_dev"`
+		DriverName string `env:"DRIVER_NAME" env-default:"postgres"`
+	}
 	HttpServer struct {
-		Host string `yaml:"host"`
-		Port string `yaml:"port"`
-	} `yaml:"http-server"`
+		Host string `env:"SERVER_HOST" env-default:"localhost"`
+		Port string `env:"SERVER_PORT" env-default:"8283"`
+	}
+	Auth struct {
+		Username  string `env:"ADMIN_USERNAME" env-default:"admin"`
+		Password  string `env:"ADMIN_PASSWORD" env-default:"admin"`
+		JwtSecret string `env:"JWT_SECRET" env-default:"secret"`
+	}
 }
 
-func NewConfigFromFile() Config {
-	f, err := os.Open("pkg/config/config.yml")
-	if err != nil {
-		log.Println(err)
-		panic(err)
-	}
-	defer f.Close()
-	cfg := new(Config)
-	decoder := yaml.NewDecoder(f)
-	err = decoder.Decode(cfg)
-	if err != nil {
-		log.Println(err)
-		panic(err)
-	}
-	return *cfg
+var instance *Config
+
+func GetConfig() *Config {
+	once := sync.Once{}
+	once.Do(func() {
+		instance = &Config{}
+
+		if err := godotenv.Load(".env"); err != nil {
+			log.Printf("error during loading environment variables: %s\n", err.Error())
+			return
+		}
+
+		if err := cleanenv.ReadEnv(instance); err != nil {
+			help, _ := cleanenv.GetDescription(instance, nil)
+			log.Printf("error during mapping environment variables: %s\n", help)
+			return
+		}
+	})
+
+	return instance
 }
