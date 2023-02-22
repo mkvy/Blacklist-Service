@@ -38,4 +38,4 @@ deploy:
     - python3 get-pip.py
     - pip install docker-compose
   script:
-    - docker-compose up -d
+    - docker-compose up -d -e SERVER_PORT=${SERVER_PORT}
