@@ -37,6 +37,7 @@ deploy:
     - curl -O https://bootstrap.pypa.io/get-pip.py
     - python3 get-pip.py
     - pip install docker-compose
+  variables:
     - SERVER_PORT=$SERVER_PORT
   script:
     - docker-compose up -d
