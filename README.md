@@ -1,20 +1,20 @@
 # Blacklist Test Task
 ### Локальный запуск:
 ___
-#### Параметры среды в файле `.env` в корневой директории
+#### Указать параметры среды в файле `.env` в корневой директории
 ```shell
-JWT_SECRET=
-ADMIN_USERNAME=
-ADMIN_PASSWORD=
+JWT_SECRET=secret
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin
 
-PG_USERNAME=
-PG_PASSWORD=
-DATABASE_NAME=
-DRIVER_NAME=
-DATABASE_HOST_PORT=
+PG_USERNAME=postgres
+PG_PASSWORD=postgres
+DATABASE_NAME=blacklist_dev
+DRIVER_NAME=postgres
+DATABASE_HOST_PORT=database:5432
 
-SERVER_HOST=
-SERVER_PORT=
+SERVER_HOST=localhost
+SERVER_PORT=8283
 ```
 #### Запуск БД и сервиса через docker compose
 ```shell
