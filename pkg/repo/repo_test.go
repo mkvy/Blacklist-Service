@@ -18,7 +18,7 @@ func TestDBBlacklistRepo_Create(t *testing.T) {
 	}
 	defer db.Close()
 	dbx := sqlx.NewDb(db, "sqlmock")
-	repo := NewRepository(dbx)
+	repo := NewDBBlacklistRepo(dbx)
 	data := models.BlacklistData{
 		Id:                uuid.New().String(),
 		PhoneNumber:       "555-555-5555",
@@ -48,7 +48,7 @@ func TestDBBlacklistRepo_Delete(t *testing.T) {
 	defer db.Close()
 
 	dbx := sqlx.NewDb(db, "sqlmock")
-	repo := NewRepository(dbx)
+	repo := NewDBBlacklistRepo(dbx)
 
 	id := uuid.New().String()
 
@@ -73,7 +73,7 @@ func TestDBBlacklistRepo_Delete_NotFound(t *testing.T) {
 	defer db.Close()
 
 	dbx := sqlx.NewDb(db, "sqlmock")
-	repo := NewRepository(dbx)
+	repo := NewDBBlacklistRepo(dbx)
 
 	id := uuid.New().String()
 
@@ -96,7 +96,7 @@ func TestDBBlacklistRepo_GetByPhoneNumber(t *testing.T) {
 	defer db.Close()
 
 	dbx := sqlx.NewDb(db, "sqlmock")
-	repo := NewRepository(dbx)
+	repo := NewDBBlacklistRepo(dbx)
 
 	phone := "79891234545"
 
@@ -126,7 +126,7 @@ func TestDBBlacklistRepo_GetByPhoneNumber_NotFound(t *testing.T) {
 	defer db.Close()
 
 	dbx := sqlx.NewDb(db, "sqlmock")
-	repo := NewRepository(dbx)
+	repo := NewDBBlacklistRepo(dbx)
 
 	phone := "testuser"
 
@@ -150,7 +150,7 @@ func TestDBBlacklistRepo_GetByUsername(t *testing.T) {
 	defer db.Close()
 
 	dbx := sqlx.NewDb(db, "sqlmock")
-	repo := NewRepository(dbx)
+	repo := NewDBBlacklistRepo(dbx)
 
 	username := "testuser"
 
@@ -180,7 +180,7 @@ func TestDBBlacklistRepo_GetByUsername_NotFound(t *testing.T) {
 	defer db.Close()
 
 	dbx := sqlx.NewDb(db, "sqlmock")
-	repo := NewRepository(dbx)
+	repo := NewDBBlacklistRepo(dbx)
 
 	username := "testuser"
 
