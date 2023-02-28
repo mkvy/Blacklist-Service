@@ -2,15 +2,14 @@ package mocks
 
 import (
 	"github.com/mkvy/BlacklistTestTask/pkg/models"
-	"github.com/mkvy/BlacklistTestTask/pkg/repo"
 	"github.com/mkvy/BlacklistTestTask/pkg/utils"
 	"time"
 )
 
 type mockRepo struct{}
 
-func NewMockRepository() *repo.Repository {
-	return &repo.Repository{BlacklistRepository: &mockRepo{}}
+func NewMockRepository() *mockRepo {
+	return &mockRepo{}
 }
 
 func (m *mockRepo) Create(data models.BlacklistData) error {
