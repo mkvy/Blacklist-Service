@@ -4,15 +4,14 @@ import (
 	"errors"
 	"github.com/mkvy/BlacklistTestTask/pkg/dto"
 	"github.com/mkvy/BlacklistTestTask/pkg/models"
-	"github.com/mkvy/BlacklistTestTask/pkg/service"
 	"github.com/mkvy/BlacklistTestTask/pkg/utils"
 	"time"
 )
 
 type mockService struct{}
 
-func NewMockService() *service.Service {
-	return &service.Service{UserBlackListSvc: &mockService{}}
+func NewMockService() *mockService {
+	return &mockService{}
 }
 
 func (s *mockService) Add(data dto.BlacklistRequestDto) (string, error) {

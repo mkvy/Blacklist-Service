@@ -13,7 +13,7 @@ import (
 )
 
 func TestAdd(t *testing.T) {
-	svc := NewService(mocks.NewMockRepository())
+	svc := NewBlacklistSvcImpl(mocks.NewMockRepository())
 	data := dto.BlacklistRequestDto{
 		PhoneNumber:       "1234567890",
 		Username:          "test_user",
@@ -30,7 +30,7 @@ func TestAdd(t *testing.T) {
 }
 
 func TestAdd_ValidationError(t *testing.T) {
-	svc := NewService(mocks.NewMockRepository())
+	svc := NewBlacklistSvcImpl(mocks.NewMockRepository())
 	data := dto.BlacklistRequestDto{
 		PhoneNumber:       "1234567890",
 		Username:          "test_user",
@@ -47,7 +47,7 @@ func TestAdd_ValidationError(t *testing.T) {
 }
 
 func TestAdd_RepoUniqueError(t *testing.T) {
-	svc := NewService(mocks.NewMockRepository())
+	svc := NewBlacklistSvcImpl(mocks.NewMockRepository())
 	uniquePhoneNumber := "1155669977"
 	uniqueUsername := "test_unique"
 	uniqueUsernameWhoBanned := "admin"
@@ -65,7 +65,7 @@ func TestAdd_RepoUniqueError(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	svc := NewService(mocks.NewMockRepository())
+	svc := NewBlacklistSvcImpl(mocks.NewMockRepository())
 	id := "123e4567-e89b-12d3-a456-426614174000"
 	err := svc.Delete(id)
 	if err != nil {
@@ -74,14 +74,14 @@ func TestDelete(t *testing.T) {
 }
 
 func TestDelete_NotFound(t *testing.T) {
-	svc := NewService(mocks.NewMockRepository())
+	svc := NewBlacklistSvcImpl(mocks.NewMockRepository())
 	id := "222e4567-e89b-12d3-a456-426614174000"
 	err := svc.Delete(id)
 	assert.ErrorIs(t, err, utils.ErrNotFound)
 }
 
 func TestBlacklistSvcImpl_GetByPhoneNumber(t *testing.T) {
-	svc := NewService(mocks.NewMockRepository())
+	svc := NewBlacklistSvcImpl(mocks.NewMockRepository())
 	testphone := "78785551111"
 	data := []models.BlacklistData{
 		{
@@ -101,14 +101,14 @@ func TestBlacklistSvcImpl_GetByPhoneNumber(t *testing.T) {
 }
 
 func TestBlacklistSvcImpl_GetByPhoneNumber_NotFound(t *testing.T) {
-	svc := NewService(mocks.NewMockRepository())
+	svc := NewBlacklistSvcImpl(mocks.NewMockRepository())
 	testphone := "78785551112"
 	_, err := svc.GetByPhoneNumber(testphone)
 	assert.Equal(t, utils.ErrNotFound, err)
 }
 
 func TestBlacklistSvcImpl_GetByUsername(t *testing.T) {
-	svc := NewService(mocks.NewMockRepository())
+	svc := NewBlacklistSvcImpl(mocks.NewMockRepository())
 	testUsername := "user1"
 	data := []models.BlacklistData{
 		{
@@ -128,7 +128,7 @@ func TestBlacklistSvcImpl_GetByUsername(t *testing.T) {
 }
 
 func TestBlacklistSvcImpl_GetByUsername_NotFound(t *testing.T) {
-	svc := NewService(mocks.NewMockRepository())
+	svc := NewBlacklistSvcImpl(mocks.NewMockRepository())
 	testUsername := "test3"
 	_, err := svc.GetByPhoneNumber(testUsername)
 	assert.Equal(t, utils.ErrNotFound, err)
