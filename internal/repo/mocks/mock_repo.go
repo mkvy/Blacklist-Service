@@ -1,7 +1,7 @@
 package mocks
 
 import (
-	"github.com/mkvy/BlacklistTestTask/pkg/models"
+	"github.com/mkvy/BlacklistTestTask/internal/models"
 	"github.com/mkvy/BlacklistTestTask/pkg/utils"
 	"time"
 )

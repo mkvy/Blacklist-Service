@@ -4,7 +4,7 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"github.com/mkvy/BlacklistTestTask/pkg/models"
+	"github.com/mkvy/BlacklistTestTask/internal/models"
 	"github.com/mkvy/BlacklistTestTask/pkg/utils"
 	"github.com/stretchr/testify/assert"
 	"testing"

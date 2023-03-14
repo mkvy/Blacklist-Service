@@ -1,12 +1,13 @@
 package app
 
 import (
-	"github.com/mkvy/BlacklistTestTask/pkg/config"
-	"github.com/mkvy/BlacklistTestTask/pkg/controller"
+	"github.com/mkvy/BlacklistTestTask/internal/config"
+	"github.com/mkvy/BlacklistTestTask/internal/controller"
+	"github.com/mkvy/BlacklistTestTask/internal/handler"
+	"github.com/mkvy/BlacklistTestTask/internal/repo"
+	"github.com/mkvy/BlacklistTestTask/internal/service"
 	"github.com/mkvy/BlacklistTestTask/pkg/database"
-	"github.com/mkvy/BlacklistTestTask/pkg/repo"
 	"github.com/mkvy/BlacklistTestTask/pkg/server"
-	"github.com/mkvy/BlacklistTestTask/pkg/service"
 	"log"
 	"os"
 	"os/signal"
@@ -24,8 +25,9 @@ func Run() {
 	}
 	repository := repo.NewDBBlacklistRepo(db)
 	svc := service.NewBlacklistSvcImpl(repository)
-	handler := controller.NewController(svc)
-	s := server.NewServer(*cfg, handler)
+	ctrl := controller.NewController(svc)
+	handle := handler.NewHandler(ctrl)
+	s := server.NewServer(*cfg, handle)
 	go s.Start()
 	log.Println("http: Server is running")
 	sigTerm := make(chan os.Signal, 1)

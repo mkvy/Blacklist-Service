@@ -3,9 +3,9 @@ package service
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
-	"github.com/mkvy/BlacklistTestTask/pkg/dto"
-	"github.com/mkvy/BlacklistTestTask/pkg/models"
-	"github.com/mkvy/BlacklistTestTask/pkg/repo"
+	"github.com/mkvy/BlacklistTestTask/internal/dto"
+	"github.com/mkvy/BlacklistTestTask/internal/models"
+	"github.com/mkvy/BlacklistTestTask/internal/repo"
 	"log"
 	"time"
 )

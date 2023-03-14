@@ -3,18 +3,19 @@ package database
 import (
 	"errors"
 	"github.com/jmoiron/sqlx"
-	"github.com/mkvy/BlacklistTestTask/pkg/config"
+	"github.com/mkvy/BlacklistTestTask/internal/config"
 	"log"
 	"strings"
 	"sync"
 )
+
+var once sync.Once
 
 type DBConn struct {
 	db *sqlx.DB
 }
 
 func NewDBConn(cfg config.Config) (*DBConn, error) {
-	once := sync.Once{}
 	var err error
 	var db *sqlx.DB
 	once.Do(func() {

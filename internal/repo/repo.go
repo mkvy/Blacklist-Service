@@ -1,7 +1,7 @@
 package repo
 
 import (
-	"github.com/mkvy/BlacklistTestTask/pkg/models"
+	"github.com/mkvy/BlacklistTestTask/internal/models"
 )
 
 type BlacklistRepository interface {
